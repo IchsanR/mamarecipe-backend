@@ -18,9 +18,14 @@ CREATE TABLE recipe(
   title text
 );
 
-CREATE TABLE comments(
-  id_comment serial primary key,
-  userid UUID references users(id_user) on delete cascade,
-  recipeid UUID references recipe(id_recipe) on delete cascade,
-  comments_body text
+CREATE TABLE liked(
+  id_liked serial primary key,
+  iduser UUID references users(id_user) on delete cascade,
+  idrecipe UUID references recipe(id_recipe) on delete cascade
+);
+
+CREATE TABLE saved(
+  id_saved serial primary key,
+  iduser UUID references users(id_user) on delete cascade,
+  idrecipe UUID references recipe(id_recipe) on delete cascade
 );

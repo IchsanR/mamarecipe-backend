@@ -1,17 +1,10 @@
 const recipeModel = require("../model/recipe.model");
 const { success, failed } = require("../helper/file.respons");
 const { v4: uuidv4 } = require("uuid");
-// const bcrypt = require("bcrypt");
-// const jwtToken = require("../helper/generateJWT");
 
 const recipeController = {
-	// method
 	list: (req, res) => {
-		// const limit = parseInt(req.query.limit) || 2;
-		// const page = parseInt(req.query.page) || 1;
-		// const offset = (page - 1) * limit;
 		recipeModel
-			// .selectAll(limit, offset)
 			.selectAll()
 			.then((results) => {
 				success(res, results.rows, "success", "get all recipe success");
@@ -70,9 +63,8 @@ const recipeController = {
 				failed(res, err.message, "failed", "get recipe failed");
 			});
 	},
+
 	insert: (req, res) => {
-		// tangkap data dari body
-		// const image = req.file.filename;
 		const id = uuidv4();
 		const { iduser, ingredients, video, title } = req.body;
 
@@ -94,8 +86,8 @@ const recipeController = {
 				res.json(err);
 			});
 	},
+
 	update: (req, res) => {
-		// console.log(req.file);
 		const { title, ingredients, video } = req.body;
 		const id_recipe = req.params.id_recipe;
 		const image = req.file.filename;
@@ -108,22 +100,121 @@ const recipeController = {
 				res.json(err);
 			});
 	},
-	// updateImage: (req, res) => {
-	// 	const image = req.file.filename;
-	// 	const id_recipe = req.params.id_recipe;
-	// 	recipeModel
-	// 		.updateImage(id_recipe, image)
-	// 		.then((results) => {
-	// 			res.json(results);
-	// 		})
-	// 		.catch((err) => {
-	// 			res.json(err);
-	// 		});
-	// },
+
 	destroy: (req, res) => {
 		const id_recipe = req.params.id_recipe;
 		recipeModel
 			.destroy(id_recipe)
+			.then((results) => {
+				res.json(results);
+			})
+			.catch((err) => {
+				res.json(err);
+			});
+	},
+
+	likedRecipe: (req, res) => {
+		const iduser = req.params.iduser;
+
+		recipeModel
+			.likedRecipe(iduser)
+			.then((result) => {
+				success(res, result.rows, "success", "Get liked recipe success");
+			})
+			.catch((err) => {
+				failed(res, err.message, "failed", "Get liked recipe failed");
+			});
+	},
+
+	insertLiked: (req, res) => {
+		const body = req.body;
+		const data = {
+			iduser: body.iduser,
+			idrecipe: body.idrecipe,
+		};
+
+		recipeModel
+			.checkLike(data.iduser, data.idrecipe)
+			.then((results) => {
+				if (results.rowCount == 0) {
+					recipeModel
+						.insertLiked(data)
+						.then((result) => {
+							success(res, result.rows, "success", "liked recipe success");
+						})
+						.catch((err) => {
+							failed(res, err.message, "failed", "liked recipe failed");
+						});
+				}
+
+				if (results.rowCount > 0) {
+					failed(res, null, "failed", "resep sudah pernah disukai");
+				}
+			})
+			.catch((error) => {
+				res.json(error);
+			});
+	},
+
+	destroyLike: (req, res) => {
+		const id_recipe = req.params.id_recipe;
+		recipeModel
+			.destroyLike(id_recipe)
+			.then((results) => {
+				res.json(results);
+			})
+			.catch((err) => {
+				res.json(err);
+			});
+	},
+
+	savedRecipe: (req, res) => {
+		const iduser = req.params.iduser;
+
+		recipeModel
+			.savedRecipe(iduser)
+			.then((result) => {
+				success(res, result.rows, "success", "Get saved recipe success");
+			})
+			.catch((err) => {
+				failed(res, err.message, "failed", "Get saved recipe failed");
+			});
+	},
+
+	insertSaved: (req, res) => {
+		const body = req.body;
+		const data = {
+			iduser: body.iduser,
+			idrecipe: body.idrecipe,
+		};
+
+		recipeModel
+			.checkSaved(data.iduser, data.idrecipe)
+			.then((results) => {
+				if (results.rowCount == 0) {
+					recipeModel
+						.insertSaved(data)
+						.then((result) => {
+							success(res, result.rows, "success", "saved recipe success");
+						})
+						.catch((err) => {
+							failed(res, err.message, "failed", "saved recipe failed");
+						});
+				}
+
+				if (results.rowCount > 0) {
+					failed(res, null, "failed", "resep sudah pernah disimpan");
+				}
+			})
+			.catch((error) => {
+				res.json(error);
+			});
+	},
+
+	destroySaved: (req, res) => {
+		const id_recipe = req.params.id_recipe;
+		recipeModel
+			.destroySaved(id_recipe)
 			.then((results) => {
 				res.json(results);
 			})
