@@ -1,6 +1,7 @@
 const recipeModel = require("../model/recipe.model");
 const { success, failed } = require("../helper/file.respons");
 const { v4: uuidv4 } = require("uuid");
+const cloudinary = require("../helper/cloudinary");
 
 const recipeController = {
 	list: (req, res) => {
@@ -64,14 +65,21 @@ const recipeController = {
 			});
 	},
 
-	insert: (req, res) => {
+	insert: async (req, res) => {
 		const id = uuidv4();
 		const { iduser, ingredients, video, title } = req.body;
+		const image = req.file
+			? await cloudinary.uploader.upload(req.file.path)
+			: {
+					secure_url:
+						"https://res.cloudinary.com/dmkviiqax/image/upload/v1670740075/null_jxiqhn.jpg",
+					public_id: "",
+			  };
 
 		const data = {
 			id_recipe: id,
 			iduser,
-			image: req.file ? req.file.filename : null,
+			image: `${image.secure_url}|&&|${image.public_id}`,
 			ingredients,
 			video,
 			title,
