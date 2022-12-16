@@ -5,26 +5,29 @@ const path = require("path");
 
 // management file
 const multerUpload = multer({
-	storage: multer.diskStorage({}),
-	limits: {
-		fileSize: 2 * 1024 * 1024,
-	},
+	storage: multer.diskStorage({
+		destination: (req, res, cb) => {
+			cb(null, "./public");
+		},
+		filename: (req, file, cb) => {
+			const ext = path.extname(file.originalname);
+			const fileName = Date.now() + "" + ext;
+			cb(null, fileName);
+		},
+	}),
 	fileFilter: (req, file, cb) => {
 		const ext = path.extname(file.originalname);
-		if (
-			ext === ".jpg" ||
-			ext === ".png" ||
-			ext === ".jpeg" ||
-			ext === ".jfif"
-		) {
+		// console.log(ext);
+		if (ext === ".jpg" || ext === ".png" || ext === ".JPG" || ext === ".PNG") {
 			cb(null, true);
 		} else {
 			const error = {
-				message: "File type is not supported",
+				message: "file harus gambar",
 			};
 			cb(error, false);
 		}
 	},
+	limits: { fileSize: 4 * 1024 * 1024 },
 });
 
 // untuk middleware

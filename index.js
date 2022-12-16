@@ -19,11 +19,6 @@ const corsOption = {
 
 app.use(express.static("public"));
 app.use(helmet());
-// app.use(
-// 	helmet({
-// 		crossOriginResourcePolicy: false,
-// 	})
-// );
 app.use(cors(corsOption));
 app.use(xss());
 app.use(bodyParser.json());
