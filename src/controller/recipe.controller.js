@@ -95,8 +95,16 @@ const recipeController = {
 		const image = req.file
 			? await cloudinary.uploader.upload(req.file.path)
 			: null;
+
+		const data = {
+			title,
+			image: `${image.secure_url}|&&|${image.public_id}`,
+			ingredients,
+			video,
+			id_recipe,
+		};
 		recipeModel
-			.update(id_recipe, image, title, ingredients, video)
+			.update(data)
 			.then((results) => {
 				res.json(results);
 			})

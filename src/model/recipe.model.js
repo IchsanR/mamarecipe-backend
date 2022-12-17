@@ -62,7 +62,7 @@ const recipeModel = {
 				});
 		});
 	},
-	update: (id_recipe, image, title, ingredients, video) => {
+	update: (data) => {
 		return new Promise((resolve, reject) => {
 			db.query(
 				`
@@ -73,7 +73,7 @@ const recipeModel = {
         video = COALESCE ($4, video)
         WHERE id_recipe = $5
         `,
-				[title, image, ingredients, video, id_recipe]
+				[data.title, data.image, data.ingredients, data.video, data.id_recipe]
 			)
 				.then((response) => {
 					resolve(response);
