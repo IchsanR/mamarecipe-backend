@@ -89,10 +89,12 @@ const recipeController = {
 			});
 	},
 
-	update: (req, res) => {
+	update: async (req, res) => {
 		const { title, ingredients, video } = req.body;
 		const id_recipe = req.params.id_recipe;
-		const image = req.file.filename;
+		const image = req.file
+			? await cloudinary.uploader.upload(req.file.path)
+			: null;
 		recipeModel
 			.update(id_recipe, image, title, ingredients, video)
 			.then((results) => {
