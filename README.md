@@ -41,11 +41,12 @@ Mama recipe is the web application that you can post your delicious recipe. You 
 |── mamarecipe-backend
    |── public            # Public Assets
    |── src               # Project source code
-       |── assets        # Application assets
-       |── component     # Application components
-       |── pages         # Pages source code
-       |── redux         # State management
-       |── router        # Endpoint
+       |── config        # Database configuration
+       |── controller    # Request controller
+       |── helper        # Cloudinary, env, JWT, response configuration
+       |── middleware    # Middleware configuration
+       |── model         # Database query
+       |── router        # API Endpoint routes
    |── .env              # Environment variables
    |── .gitignore        # Files that should be ignored
    |── db.sql            # Database setup
