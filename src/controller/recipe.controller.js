@@ -96,7 +96,7 @@ const recipeController = {
 
 		const data = {
 			title,
-			image: req.file ? `${image.secure_url}|&&|${image.public_id}` : null,
+			image: `${image.secure_url}|&&|${image.public_id}`,
 			ingredients,
 			video,
 			id_recipe,
