@@ -33,7 +33,9 @@
 
 ## About The Project
 
-Mama recipe is the web application that you can post your delicious recipe. You can create your account and start posting your recipe.
+Hirejob Backend is an API used for [Mama Recipe](https://mamarecipe-frontend.vercel.app/). This API handles every functions in Food Recipes Application, such as:
+- User   : Register, login.
+- Recipe : Insert new recipe, update, delete, like a recipe, save a recipe, and get list of recipe
 
 ### Project Structure
 
@@ -116,6 +118,9 @@ DB_PASSWORD=[DATABASE_PASSWORD]
 DB_NAME=[DATABASE_NAME]
 DB_PORT=[DATABASE_PORT]
 JWT_SECRET=[YOUR_JWT_SECRET_KEY]
+CLOUD_NAME = [YOUR_CLOUDINARY_CLOUD_NAME]
+API_KEY = [YOUR_CLOUDINARY_API_KEY]
+API_SECRET = [YOUR_CLOUDINARY_API_SECRET]
 ```
 
 <!-- Contributing -->
