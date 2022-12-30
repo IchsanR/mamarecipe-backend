@@ -33,7 +33,7 @@
 
 ## About The Project
 
-Hirejob Backend is an API used for [Mama Recipe](https://mamarecipe-frontend.vercel.app/). This API handles every functions in Food Recipes Application, such as:
+Mamarecipe Backend is an API used for [Mama Recipe](https://mamarecipe-frontend.vercel.app/). This API handles every functions in Food Recipes Application, such as:
 - User   : Register, login.
 - Recipe : Insert new recipe, update, delete, like a recipe, save a recipe, and get list of recipe
 
